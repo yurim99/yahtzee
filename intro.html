@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보드게임 야찌</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/stlye.css">
+    <script src="./js/intro.js"></script>
+</head>
+
+<body>
+    <div class="dim"></div>
+    <div class="container">
+        <div class="intro">
+            <h1 class="game__tit">Yahtzee!</h1>
+            
+            <div class="intro__btns">
+                <a class="btn btn__red" href="main.html">게임하기</a>
+                <button class="btn btn__green btn__guide">게임방법</button>
+            </div>
+        </div>
+    </div>
+
+    <aside class="popup">
+        <div class="pop__head">
+            <p class="pop__tit">야찌 게임 방법</p>
+        </div>
+        <div class="pop__body">
+            <p class="pop-body__tit">🎲 <strong class="txt__red">야찌(Yahtzee)</strong>는 5개의 주사위를 사용해서 여러가지 숫자조합을 만드는 게임입니다.</p>
+            <br>
+            <p class="section__tit">1. 게임 진행 방법🎮</p>
+            <p class="dot__txt">각 차례에서 주사위를 <span class="txt__blue">최대 3번까지</span> 굴릴 수 있습니다.</p>
+            <p class="dot__txt">이때, 굴린 주사위 중 여러 개를 선택해 <span class="txt__blue">고정</span> 시킨 후, 나머지 주사위만 굴릴 수 있습니다.</p>
+            <p class="dot__txt">원하는 주사위를 <span class="txt__blue">클릭</span>하면 고정되며, 다시 선택하면 고정이 해제 됩니다.</p>
+            <br>
+            <p class="section__tit">2. 점수 기록 📝</p>
+            <p class="dot__txt">원하는 시점에서 점수를 기록할 수 있습니다.</p>
+            <p class="dot__txt">점수표에 점수 칸 클릭 시 점수가 기록되며, 확정을 누르기 전까지 수정 가능합니다.</p>
+            <p class="dot__txt">확정 이후 작성한 점수는 <span class="txt__red">수정할 수 없습니다.</span></p>
+            <br>
+            <p class="section__tit">3. 점수 기록표 상세설명 🔍</p>
+            <p class="dot__txt">점수기록표는 크게 2가지로 나뉩니다.</p>
+            <p class="dot__txt"><span class="txt__blue">상단</span>은 특정 주사위 눈이 나온 개수만큼 점수를 획득합니다.</p>
+            <p class="dot__txt">예시를 들어, 주사위 결과가 🎲3, 🎲3, 🎲2, 🎲5, 🎲6이 나왔다고 가정해봅시다.</p>
+            <p class="dot__txt">위에 결과를 기준으로 상단 영역 점수를 작성하면, Aces와 Fours는 각각 0점을 기록합니다.</p>
+            <p class="dot__txt">Threes은 총 2개이므로 개수*주사위 눈을 계산하여 작성합니다. 2*3=6</p>
+            <p class="dot__txt">나머지도 <span class="txt__blue">나온 주사위의 개수와 주사위 눈을 곱하여 작성</span>합니다.</p>
+            <br>
+            <table class="score__table">
+                <caption>상단 점수표</caption>
+                <colgroup>
+                    <col width="20%">
+                    <col width="auto">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>설명</th>
+                        <th>점수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Aces</th>
+                        <td>1이 나온 주사위 눈의 합</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th>Twos</th>
+                        <td>2이 나온 주사위 눈의 합</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <th>Threes</th>
+                        <td>3이 나온 주사위 눈의 합</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <th>Fours</th>
+                        <td>4이 나온 주사위 눈의 합</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th>Fives</th>
+                        <td>5이 나온 주사위 눈의 합</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th>Sixes</th>
+                        <td>6이 나온 주사위 눈의 합</td>
+                        <td>6</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <p class="dot__txt"><span class="txt__blue">하단</span>은 특정 조합을 만들게 되면 작성할 수 있습니다.</p>
+            <p class="dot__txt">Full House, Small Straight, Large Straight는 고정 점수를 받습니다.</p>
+            <p class="dot__txt">Yahtzee는 50점을 받고 추가로 나올 경우, 100점씩 추가 점수를 받을 수 있습니다.</p>
+            <p class="dot__txt">Chance는 조건 상관없이 주사위 눈의 총 합을 계산합니다.</p>
+            <p class="dot__txt">Three of a Kind, Four of a Kind은 조건이 일치할 경우에 주사위 눈의 총 합을 계산합니다.</p>
+            <br>
+            <p class="section__tit">4. 게임 종료 조건</p>
+            <p class="dot__txt"><span class="txt__red">점수 칸을 모두 채우면</span> 게임이 종료됩니다.</p>
+            <br>
+            <br>
+            <p>모든 설명이 끝났습니다.🙌</p>
+            <p>게임하기 버튼을 클릭하면 게임판으로 이동하며 바로 시작됩니다.</p>
+            <br>
+            <p>자신만의 전략과 운을 사용해서 플레이 해보세요!😆</p>
+        </div>
+        <div class="pop__foot">
+            <button class="btn btn__red btn__close">닫기</button>
+        </div>
+    </aside>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보드게임 야찌</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/stlye.css">
+    <script src="./js/main.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <a id="top" href="javascript:void(0)"></a>
+        <div class="board">
+            <h1 class="game__tit">Yahtzee!</h1>
+            <div class="dice-stage">
+                <button id="diceN1" class="dice">
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                </button>
+                <button id="diceN2" class="dice">
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                </button>
+                <button id="diceN3" class="dice">
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                </button>
+                <button id="diceN4" class="dice">
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                </button>
+                <button id="diceN5" class="dice">
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                    <div class="num"></div>
+                </button>
+            </div>
+
+            <div class="btn-stage">
+                <p class="rolling__chance"> 남은 횟수 : <span>1</span> / 3</p>
+                <button class="btn btn__rolling btn__red">주사위 굴리기</button>
+                <button class="btn btn__blue">확정</button>
+            </div>
+        </div>
+        <div class="score">
+            <button class="btn btn__green btn__home" title="홈으로"></button>
+            <p class="score__tit">점수표</p>
+            <table class="score__table">
+                <caption>상단 점수표</caption>
+                <colgroup>
+                    <col width="20%">
+                    <col width="auto">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>설명</th>
+                        <th>점수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Aces</th>
+                        <td>1이 나온 주사위 눈의 합</td>
+                        <td><button id="btnAces" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Twos</th>
+                        <td>2이 나온 주사위 눈의 합</td>
+                        <td><button id="btnTwos" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Threes</th>
+                        <td>3이 나온 주사위 눈의 합</td>
+                        <td><button id="btnThrees" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Fours</th>
+                        <td>4이 나온 주사위 눈의 합</td>
+                        <td><button id="btnFours" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Fives</th>
+                        <td>5이 나온 주사위 눈의 합</td>
+                        <td><button id="btnFives" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Sixes</th>
+                        <td>6이 나온 주사위 눈의 합</td>
+                        <td><button id="btnSixes" class="btn score__btn">00점</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>총점</th>
+                        <td>총합이 63점이 넘을 경우<br>추가 점수 + 35점</td>
+                        <td><button class="btn score__btn">00점</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table class="score__table">
+                <caption>하단 점수표</caption>
+                <colgroup>
+                    <col width="20%">
+                    <col width="auto">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>설명</th>
+                        <th>점수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Three-of-A-Kind</th>
+                        <td>3개 이상의 주사위 눈이 동일할 때,<br>주사위 전체 눈의 합</td>
+                        <td><button id="btnThreeOfAKind" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Four-of-A-Kind</th>
+                        <td>4개 이상의 주사위 눈이 동일할 때,<br>주사위 전체 눈의 합</td>
+                        <td><button class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Full House</th>
+                        <td>눈이 동일한 주사위가 각각 3개와 2개가 있을 때</td>
+                        <td><button class="btn score__btn">25점</button></td>
+                    </tr>
+                    <tr>
+                        <th>small straight</th>
+                        <td>주사위 4개이상의 눈이 이어지는 수 일 때</td>
+                        <td><button class="btn score__btn">30점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Large straight</th>
+                        <td>모든 주사위 눈이 이어지는 수 일 때</td>
+                        <td><button class="btn score__btn">40점</button></td>
+                    </tr>
+                    <tr>
+                        <th>chance</th>
+                        <td>모든 주사위 눈의 총 합</td>
+                        <td><button id="btnChance" class="btn score__btn">00점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Yahtzee</th>
+                        <td>모든 주사위 눈이 동일 할 때</td>
+                        <td><button class="btn score__btn">50점</button></td>
+                    </tr>
+                    <tr>
+                        <th>Yahtzee 보너스</th>
+                        <td>야찌가 또 나올 때 마다 추가</td>
+                        <td class="txt__gray">100점</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>총 점</th>
+                        <td colspan="2" class="score__all">- 점</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <a href="#top" class="btn__top" title="상단으로"></a>
+    </div>
+</body>
+
+</html>
