@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnFours = document.getElementById('btnFours');
     const btnFives = document.getElementById('btnFives');
     const btnChance = document.getElementById('btnChance');
-    const btnThreeOfAKind = document.getElementById('btnThreeOfAKind');
+    const btn3OfAKind = document.getElementById('btn3OfAKind');
+    const btn4OfAKind = document.getElementById('btn4OfAKind');
+    const btnFullHouse = document.getElementById('btnFullHouse');
+    const btnStraightS = document.getElementById('btnStraightS');
+    const btnStraightL = document.getElementById('btnStraightL');
 
     function aces() {
         btnAces.textContent = acesCount + `점`;
@@ -69,35 +73,45 @@ document.addEventListener("DOMContentLoaded", function () {
     const diceN5 = document.getElementById('diceN5');
     const diceResults = [diceN1, diceN2, diceN3, diceN4, diceN5];
 
+    // getClassNumber 수정
     function getClassNumber(el) {
-        const match = el.className.match(/\d+/);
+        const match = el.className.match(/\d+/);  // className에서 숫자 추출
         return match ? parseInt(match[0], 10) : null;
     }
 
-    function threeOfAKind() {
+    function checkKind(kind, countRequired) {
         const numbers = diceResults.map(dice => getClassNumber(dice));
-    
+
         let countMap = numbers.reduce((acc, num) => {
             acc[num] = (acc[num] || 0) + 1;
             return acc;
         }, {});
-    
-        const isThreeOfAKind = Object.values(countMap).some(count => count >= 3);
-    
-        console.log(countMap);
-    
-        if (isThreeOfAKind) {
-            btnThreeOfAKind.textContent = allFacesOfDiec + ` 점`;
+
+        const isKind = Object.values(countMap).some(count => count >= countRequired);
+
+        const button = kind === 3 ? btn3OfAKind : btn4OfAKind;
+
+        if (isKind) {
+            button.textContent = `${allFacesOfDiec} 점`;
         } else {
-            btnThreeOfAKind.textContent =  '0점';
+            button.textContent = '0점';
         }
     }
 
-    function fourOfAKind() { }
-    function fullOfAKind() { }
+    function threeOfAKind() {
+        checkKind(3, 3);
+    }
+
+    function fourOfAKind() {
+        checkKind(4, 4);
+    }
+    // console.log(threeOfAKind())
+    // console.log(fourOfAKind())
+
+
     function fullHowse() { }
-    function smallStraught() { }
-    function LargeStraught() { }
+    function straughtS() { }
+    function StraughtL() { }
     function yahtzee() { }
     function yahtzeeBonus() { }
     function topScore() { }
@@ -111,9 +125,19 @@ document.addEventListener("DOMContentLoaded", function () {
         fives()
         sixes()
         chance()
-        threeOfAKind()
         chance()
+        threeOfAKind()
+        fourOfAKind()
+        fullHowse()
+        straughtS()
+        StraughtL()
+        yahtzee()
+        yahtzeeBonus()
+        topScore()
+        lastScore()
     }
+
+    initScore()
 
     let clickCount = 1;
     const rollingBtn = document.querySelector('.btn__rolling');
@@ -122,15 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
         clickCount++;
         rollingCount.textContent = clickCount;
 
-        aces()
-        twos()
-        threes()
-        fours()
-        fives()
-        sixes()
-        chance()
-        threeOfAKind()
-
+        initScore()
         dices.forEach(dice => {
             const activeDice = !(dice.classList.contains('fix'));
             if (activeDice) {
@@ -146,8 +162,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         const observer = new MutationObserver(() => {
+            dices.forEach(el => observer.observe(el, { attributes: true, attributeFilter: ['class'] }));
         })
-        dices.forEach(el => observer.observe(el, { attributes: true, attributeFilter: ['class'] }));
     });
 
+    const scoreBtns = document.querySelectorAll('.score__btn');
+    scoreBtns.forEach(scoreBtn => {      
+        scoreBtn.addEventListener('click', function() {
+            scoreBtn.classList.toggle('fix')
+        })
+    })
 });
