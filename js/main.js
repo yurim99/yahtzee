@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnFullHouse = document.getElementById('btnFullHouse');
     const btnStraightS = document.getElementById('btnStraightS');
     const btnStraightL = document.getElementById('btnStraightL');
+    const txtYahtzeeBonus = document.getElementById('txtYahtzeeBonus');
 
     // 1.1 상단 1 ~ 6 주사위 총합
     function aces() {
@@ -117,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const hasPair = countValues.includes(2);
 
             const button = btnFullHouse;
-            button.textContent = (hasThreeOfKind && hasPair) ? '25 점' : '0 점';
+            button.textContent = (hasThreeOfKind && hasPair) ? '25점' : '0점';
 
             return (hasThreeOfKind && hasPair) ? 25 : 0;
         }
@@ -172,7 +173,15 @@ document.addEventListener("DOMContentLoaded", function () {
         checkStraight(5, btnStraightL);
     }
 
-    function yahtzeeBonus() { }
+    // 야찌 보너스
+    function yahtzeeBonus() {
+        if (document.getElementById('btnYahtzee').textContent.trim() === '50점') {
+            
+        } else {
+            txtYahtzeeBonus.textContent =`0점`
+        }
+    }  
+
     function topScore() { }
     function lastScore() { }
 

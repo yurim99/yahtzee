@@ -541,3 +541,7 @@ td:has(.score__btn) {
         display: block;
     }
 }
+
+.caption {
+    color: var(--green);
+}
