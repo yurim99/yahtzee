@@ -110,6 +110,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return acc;
         }, {});
     
+        // 풀하우스일 경우 추가
+        if (kind === 'fullHouse') {
+            const countValues = Object.values(countMap);
+            const hasThreeOfKind = countValues.includes(3);
+            const hasPair = countValues.includes(2);
+
+            const button = btnFullHouse;
+            button.textContent = (hasThreeOfKind && hasPair) ? '25 점' : '0 점';
+
+            return (hasThreeOfKind && hasPair) ? 25 : 0;
+        }
+
         const isKind = Object.values(countMap).some(count => count >= countRequired);    
         const button = kind === 3 ? btn3OfAKind : kind === 4 ? btn4OfAKind : kind === 5 ? btnYahtzee : null;
         
@@ -117,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return isKind ? allFacesOfDiec : 0;
     }
     
-
     function threeOfAKind() {
         return checkKind(3, 3);
     }
@@ -129,12 +140,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return checkKind(5, 5);
     }
     
-    console.log(threeOfAKind());
-    console.log(fourOfAKind());
-    console.log(yahtzee());
+    function fullHouse() {
+        return checkKind('fullHouse', 0);
+    }
 
-
-    function fullHowse() { }
     function straughtS() { }
     function StraughtL() { }
     function yahtzeeBonus() { }
@@ -152,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chance()
         threeOfAKind()
         fourOfAKind()
-        fullHowse()
+        fullHouse()
         straughtS()
         StraughtL()
         yahtzee()
