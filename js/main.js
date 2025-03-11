@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // 페이지 이동 설정
     const homeBtn = document.querySelector('.btn__home');
     homeBtn.addEventListener('click', function () {
         const moveHome = confirm('게임을 그만두고 돌아가시겠습니까?');
@@ -7,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
+    // 주사위 굴리기 설정
     const dices = document.querySelectorAll('.dice');
     dices.forEach(dice => {
         let resetClass = `dice num__0${Math.floor(Math.random() * 6) + 1}`;
@@ -17,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     })
 
+
+    // 1. 각 영역별 점수 설정
+    
+    // 변수 설정
     const num01 = document.querySelectorAll('.num__01');
     const num02 = document.querySelectorAll('.num__02');
     const num03 = document.querySelectorAll('.num__03');
@@ -41,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnStraightS = document.getElementById('btnStraightS');
     const btnStraightL = document.getElementById('btnStraightL');
 
+    // 1.1 상단 1 ~ 6 주사위 총합
     function aces() {
         btnAces.textContent = acesCount + `점`;
     }
@@ -61,58 +68,74 @@ document.addEventListener("DOMContentLoaded", function () {
         btnSixes.textContent = (sixesCount * 6) + `점`;
     }
 
+
+    // 1.2 하단 점수 설정
+    
+    // 모든 주사위 총합
     const allFacesOfDiec = (acesCount * 1) + (twosCount * 2) + (threesCount * 3) + (foursCount * 4) + (fivesCount * 5) + (sixesCount * 6);
     function chance() {
         btnChance.textContent = allFacesOfDiec + `점`;
     }
 
+    // 각 자리별 주사위 눈값 추출
     const diceN1 = document.getElementById('diceN1');
     const diceN2 = document.getElementById('diceN2');
     const diceN3 = document.getElementById('diceN3');
     const diceN4 = document.getElementById('diceN4');
     const diceN5 = document.getElementById('diceN5');
-    const diceResults = [diceN1, diceN2, diceN3, diceN4, diceN5];
+    const diceResults = Array.from(document.querySelectorAll('[id^="diceN"]'));
 
-    // getClassNumber 수정
-    function getClassNumber(el) {
-        const match = el.className.match(/\d+/);  // className에서 숫자 추출
-        return match ? parseInt(match[0], 10) : null;
+    // 중복 되는 주사위 갯수 확인 
+    function getClassNumber(dice) {
+        if (!dice) return 0;
+ 
+        const match = dice.className.match(/num__(\d+)/);
+        if (match) {
+            return parseInt(match[1], 10);
+        } else {
+            console.warn("⚠ 숫자 추출 실패:", dice.className);
+            return 0;
+        }
     }
 
     function checkKind(kind, countRequired) {
-        const numbers = diceResults.map(dice => getClassNumber(dice));
-
+        const numbers = diceResults.map(dice => {
+            const num = getClassNumber(dice);
+            return num;
+        });
+        
         let countMap = numbers.reduce((acc, num) => {
             acc[num] = (acc[num] || 0) + 1;
             return acc;
         }, {});
-
-        const isKind = Object.values(countMap).some(count => count >= countRequired);
-
+    
+        const isKind = Object.values(countMap).some(count => count >= countRequired);    
         const button = kind === 3 ? btn3OfAKind : btn4OfAKind;
-
-        if (isKind) {
-            button.textContent = `${allFacesOfDiec} 점`;
-        } else {
-            button.textContent = '0점';
-        }
+        
+        button.textContent = isKind ? `${allFacesOfDiec} 점` : '0점';
+        return isKind ? allFacesOfDiec : 0;
     }
+    
 
     function threeOfAKind() {
-        checkKind(3, 3);
+        return checkKind(3, 3);
     }
-
+    
     function fourOfAKind() {
-        checkKind(4, 4);
+        return checkKind(4, 4);
     }
-    // console.log(threeOfAKind())
-    // console.log(fourOfAKind())
+    function yahtzee() { 
+        return checkKind(5, 5);
+    }
+    
+    console.log(threeOfAKind());
+    console.log(fourOfAKind());
+    console.log(yahtzee());
 
 
     function fullHowse() { }
     function straughtS() { }
     function StraughtL() { }
-    function yahtzee() { }
     function yahtzeeBonus() { }
     function topScore() { }
     function lastScore() { }
