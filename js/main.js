@@ -144,8 +144,34 @@ document.addEventListener("DOMContentLoaded", function () {
         return checkKind('fullHouse', 0);
     }
 
-    function straughtS() { }
-    function StraughtL() { }
+    //스트라이트
+    function checkStraight(length, button) {
+        const numbers = diceResults.map(dice => getClassNumber(dice)).sort((a, b) => a - b); // 주사위 숫자 오름차순 정렬
+        
+        let consecutiveCount = 1;
+        for (let i = 1; i < numbers.length; i++) {
+            if (numbers[i] === numbers[i - 1] + 1) {
+                consecutiveCount++;
+            } else if (numbers[i] !== numbers[i - 1]) {
+                consecutiveCount = 1;
+            }
+    
+            if (consecutiveCount === length) {
+                button.textContent = `${length === 4 ? 30 : 40}점`;
+                return;
+            }
+        }
+        button.textContent = '0점';
+    }
+    
+    function straughtS() {
+        checkStraight(4, btnStraightS);
+    }
+    
+    function straughtL() {
+        checkStraight(5, btnStraightL);
+    }
+
     function yahtzeeBonus() { }
     function topScore() { }
     function lastScore() { }
@@ -163,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fourOfAKind()
         fullHouse()
         straughtS()
-        StraughtL()
+        straughtL()
         yahtzee()
         yahtzeeBonus()
         topScore()
