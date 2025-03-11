@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // 1. 각 영역별 점수 설정
-    
+
     // 변수 설정
     const num01 = document.querySelectorAll('.num__01');
     const num02 = document.querySelectorAll('.num__02');
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // 1.2 하단 점수 설정
-    
+
     // 모든 주사위 총합
     const allFacesOfDiec = (acesCount * 1) + (twosCount * 2) + (threesCount * 3) + (foursCount * 4) + (fivesCount * 5) + (sixesCount * 6);
     function chance() {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 중복 되는 주사위 갯수 확인 
     function getClassNumber(dice) {
         if (!dice) return 0;
- 
+
         const match = dice.className.match(/num__(\d+)/);
         if (match) {
             return parseInt(match[1], 10);
@@ -107,12 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const num = getClassNumber(dice);
             return num;
         });
-        
+
         let countMap = numbers.reduce((acc, num) => {
             acc[num] = (acc[num] || 0) + 1;
             return acc;
         }, {});
-    
+
         // 풀하우스일 경우 추가
         if (kind === 'fullHouse') {
             const countValues = Object.values(countMap);
@@ -125,24 +125,24 @@ document.addEventListener("DOMContentLoaded", function () {
             return (hasThreeOfKind && hasPair) ? 25 : 0;
         }
 
-        const isKind = Object.values(countMap).some(count => count >= countRequired);    
+        const isKind = Object.values(countMap).some(count => count >= countRequired);
         const button = kind === 3 ? btn3OfAKind : kind === 4 ? btn4OfAKind : kind === 5 ? btnYahtzee : null;
-        
+
         button.textContent = isKind ? `${allFacesOfDiec} 점` : '0점';
         return isKind ? allFacesOfDiec : 0;
     }
-    
+
     function threeOfAKind() {
         return checkKind(3, 3);
     }
-    
+
     function fourOfAKind() {
         return checkKind(4, 4);
     }
-    function yahtzee() { 
+    function yahtzee() {
         return checkKind(5, 5);
     }
-    
+
     function fullHouse() {
         return checkKind('fullHouse', 0);
     }
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //스트라이트
     function checkStraight(length, button) {
         const numbers = diceResults.map(dice => getClassNumber(dice)).sort((a, b) => a - b); // 주사위 숫자 오름차순 정렬
-        
+
         let consecutiveCount = 1;
         for (let i = 1; i < numbers.length; i++) {
             if (numbers[i] === numbers[i - 1] + 1) {
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (numbers[i] !== numbers[i - 1]) {
                 consecutiveCount = 1;
             }
-    
+
             if (consecutiveCount === length) {
                 button.textContent = `${length === 4 ? 30 : 40}점`;
                 return;
@@ -166,11 +166,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         button.textContent = '0점';
     }
-    
+
     function straughtS() {
         checkStraight(4, btnStraightS);
     }
-    
+
     function straughtL() {
         checkStraight(5, btnStraightL);
     }
@@ -178,11 +178,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // 야찌 보너스
     function yahtzeeBonus() {
         if (document.getElementById('btnYahtzee').textContent.trim() === '50점') {
-            
+
         } else {
-            txtYahtzeeBonus.textContent =`0점`
+            txtYahtzeeBonus.textContent = `0점`
         }
-    }  
+    }
 
     // 2. 총 스코어
     function getSumFromButtons(selector) {
@@ -192,24 +192,23 @@ document.addEventListener("DOMContentLoaded", function () {
             return sum + (number ? parseInt(number[0], 10) : 0);
         }, 0);
     }
-    
+
     function topScore() {
         const topSum = getSumFromButtons('.score__btn.top.fix') || 0;
         btnTopScore.textContent = `${topSum}점`;
         lastScore(topSum);
     }
-    
+
     function lastScore(topSum = 0) {
         const bottomSum = getSumFromButtons('.score__bottom.fix') || 0;
         const totalSum = (topSum || 0) + (bottomSum || 0);
         AllScore.textContent = `${totalSum}점`;
     }
-    
+
     // 기본 점수 0으로 설정
     btnTopScore.textContent = `0점`;
     AllScore.textContent = `0점`;
-    
-    
+
 
     function initScore() {
         aces()
@@ -231,41 +230,50 @@ document.addEventListener("DOMContentLoaded", function () {
         lastScore()
     }
 
+    // 점수 초기화
     initScore()
 
+    // 클릭 횟수 설정
     let clickCount = 1;
     const rollingBtn = document.querySelector('.btn__rolling');
     const rollingCount = document.querySelector('.rolling__chance > span');
+    const maxLolling = 3;
+
     rollingBtn.addEventListener('click', function () {
+        if (clickCount >= maxLolling) return; 
+
         clickCount++;
         rollingCount.textContent = clickCount;
 
-        initScore()
+        initScore();
+
         dices.forEach(dice => {
-            const activeDice = !(dice.classList.contains('fix'));
-            if (activeDice) {
-                dice.classList.add('rolling')
+            if (!dice.classList.contains('fix')) {
+                dice.classList.add('rolling');
 
-                setTimeout(function () {
-                    let randomClass = `rolling dice num__0${Math.floor(Math.random() * 6) + 1}`;
-                    if (!(dice.classList.contains('fix')))
-                        dice.className = ''
-                    dice.className = randomClass;
-                    dice.classList.remove('rolling')
-                }, 900)
+                setTimeout(() => {
+                    let randomNumber = Math.floor(Math.random() * 6) + 1;
+                    dice.classList.remove('rolling');
+                    dice.classList.remove(...dice.classList);
+                    dice.classList.add('dice', `num__0${randomNumber}`);
+                }, 900);
             }
-        })
-        const observer = new MutationObserver(() => {
-            dices.forEach(el => observer.observe(el, { attributes: true, attributeFilter: ['class'] }));
-        })
-    });
-
-    const scoreBtns = document.querySelectorAll('.score__btn');
-    scoreBtns.forEach(scoreBtn => {      
-        scoreBtn.addEventListener('click', function() {
-            scoreBtn.classList.toggle('fix')
-            topScore()
-            lastScore()
-        })
+        });
+        
+        if (clickCount >= maxLolling) {
+            rollingBtn.disabled = true;
+        }
+        
     })
+
 });
+
+// 점수 버튼 설정
+const scoreBtns = document.querySelectorAll('.score__btn');
+scoreBtns.forEach(scoreBtn => {
+    scoreBtn.addEventListener('click', function () {
+        scoreBtn.classList.toggle('fix')
+        topScore()
+        lastScore()
+    })
+})
