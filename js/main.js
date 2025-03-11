@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnStraightS = document.getElementById('btnStraightS');
     const btnStraightL = document.getElementById('btnStraightL');
     const txtYahtzeeBonus = document.getElementById('txtYahtzeeBonus');
+    const btnTopScore = document.getElementById('btnTopScore');
 
     // 1.1 상단 1 ~ 6 주사위 총합
     function aces() {
@@ -182,7 +183,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }  
 
-    function topScore() { }
+    // 2. 총 스코어
+    function topScore() {
+        const topScoreBtns = document.querySelectorAll('.score__btn.top.fix');
+
+        const totalSum = Array.from(topScoreBtns).reduce((sum, topScoreBtn) => {
+            const buttonText = topScoreBtn.textContent.trim();
+            const number = buttonText.match(/\d+/);
+        
+            if (number) {
+                sum += parseInt(number[0], 10);
+            }
+        
+            return sum;
+        }, 0)
+
+        btnTopScore.textContent = totalSum+`점`;
+    }
+
     function lastScore() { }
 
     function initScore() {
@@ -238,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
     scoreBtns.forEach(scoreBtn => {      
         scoreBtn.addEventListener('click', function() {
             scoreBtn.classList.toggle('fix')
+            topScore()
         })
     })
 });
