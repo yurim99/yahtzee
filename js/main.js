@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnChance = document.getElementById('btnChance');
     const btn3OfAKind = document.getElementById('btn3OfAKind');
     const btn4OfAKind = document.getElementById('btn4OfAKind');
+    const btnYahtzee = document.getElementById('btnYahtzee');
     const btnFullHouse = document.getElementById('btnFullHouse');
     const btnStraightS = document.getElementById('btnStraightS');
     const btnStraightL = document.getElementById('btnStraightL');
@@ -110,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, {});
     
         const isKind = Object.values(countMap).some(count => count >= countRequired);    
-        const button = kind === 3 ? btn3OfAKind : btn4OfAKind;
+        const button = kind === 3 ? btn3OfAKind : kind === 4 ? btn4OfAKind : kind === 5 ? btnYahtzee : null;
         
         button.textContent = isKind ? `${allFacesOfDiec} 점` : '0점';
         return isKind ? allFacesOfDiec : 0;
