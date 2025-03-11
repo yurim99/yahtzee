@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnStraightL = document.getElementById('btnStraightL');
     const txtYahtzeeBonus = document.getElementById('txtYahtzeeBonus');
     const btnTopScore = document.getElementById('btnTopScore');
+    const AllScore = document.getElementById('AllScore');
 
     // 1.1 상단 1 ~ 6 주사위 총합
     function aces() {
@@ -184,24 +185,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }  
 
     // 2. 총 스코어
-    function topScore() {
-        const topScoreBtns = document.querySelectorAll('.score__btn.top.fix');
-
-        const totalSum = Array.from(topScoreBtns).reduce((sum, topScoreBtn) => {
-            const buttonText = topScoreBtn.textContent.trim();
+    function getSumFromButtons(selector) {
+        return Array.from(document.querySelectorAll(selector)).reduce((sum, btn) => {
+            const buttonText = btn.textContent.trim();
             const number = buttonText.match(/\d+/);
-        
-            if (number) {
-                sum += parseInt(number[0], 10);
-            }
-        
-            return sum;
-        }, 0)
-
-        btnTopScore.textContent = totalSum+`점`;
+            return sum + (number ? parseInt(number[0], 10) : 0);
+        }, 0);
     }
-
-    function lastScore() { }
+    
+    function topScore() {
+        const topSum = getSumFromButtons('.score__btn.top.fix') || 0;
+        btnTopScore.textContent = `${topSum}점`;
+        lastScore(topSum);
+    }
+    
+    function lastScore(topSum = 0) {
+        const bottomSum = getSumFromButtons('.score__bottom.fix') || 0;
+        const totalSum = (topSum || 0) + (bottomSum || 0);
+        AllScore.textContent = `${totalSum}점`;
+    }
+    
+    // 기본 점수 0으로 설정
+    btnTopScore.textContent = `0점`;
+    AllScore.textContent = `0점`;
+    
+    
 
     function initScore() {
         aces()
@@ -257,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scoreBtn.addEventListener('click', function() {
             scoreBtn.classList.toggle('fix')
             topScore()
+            lastScore()
         })
     })
 });

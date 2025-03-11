@@ -118,7 +118,7 @@
                     <tr>
                         <th>총점</th>
                         <td>총합이 63점이 넘을 경우<br><span class="caption">추가 점수 + 35점</span></td>
-                        <td><p id="btnTopScore" class="score__all"></p></td>
+                        <td><p id="btnTopScore" class="score-top__all"></p></td>
                     </tr>
                 </tfoot>
             </table>
@@ -140,48 +140,48 @@
                     <tr>
                         <th>Three-of-A-Kind</th>
                         <td>3개 이상의 주사위 눈이 동일할 때,<br>주사위 전체 눈의 합</td>
-                        <td><button id="btn3OfAKind" class="btn score__btn">00점</button></td>
+                        <td><button id="btn3OfAKind" class="btn score__btn score__bottom">00점</button></td>
                     </tr>
                     <tr>
                         <th>Four-of-A-Kind</th>
                         <td>4개 이상의 주사위 눈이 동일할 때,<br>주사위 전체 눈의 합</td>
-                        <td><button id="btn4OfAKind" class="btn score__btn">00점</button></td>
+                        <td><button id="btn4OfAKind" class="btn score__btn score__bottom">00점</button></td>
                     </tr>
                     <tr>
                         <th>Full House</th>
                         <td>눈이 동일한 주사위가 각각 3개와 2개가 있을 때</td>
-                        <td><button id="btnFullHouse" class="btn score__btn">25점</button></td>
+                        <td><button id="btnFullHouse" class="btn score__btn score__bottom">25점</button></td>
                     </tr>
                     <tr>
                         <th>small straight</th>
                         <td>주사위 4개이상의 눈이 이어지는 수 일 때 <span class="caption">(고정 30점)</span></td>
-                        <td><button id="btnStraightS" class="btn score__btn">30점</button></td>
+                        <td><button id="btnStraightS" class="btn score__btn score__bottom">30점</button></td>
                     </tr>
                     <tr>
                         <th>Large straight</th>
                         <td>모든 주사위 눈이 이어지는 수 일 때 <span class="caption">(고정 40점)</span></td>
-                        <td><button id="btnStraightL" class="btn score__btn">40점</button></td>
+                        <td><button id="btnStraightL" class="btn score__btn score__bottom">40점</button></td>
                     </tr>
                     <tr>
                         <th>chance</th>
                         <td>모든 주사위 눈의 총 합</td>
-                        <td><button id="btnChance" class="btn score__btn">00점</button></td>
+                        <td><button id="btnChance" class="btn score__btn score__bottom">00점</button></td>
                     </tr>
                     <tr>
                         <th>Yahtzee</th>
                         <td>모든 주사위 눈이 동일 할 때 <span class="caption">(고정 50점)</span></td>
-                        <td><button id="btnYahtzee" class="btn score__btn">50점</button></td>
+                        <td><button id="btnYahtzee" class="btn score__btn score__bottom">50점</button></td>
                     </tr>
                     <tr>
                         <th>Yahtzee 보너스</th>
                         <td>야찌가 또 나올 때 마다 추가 <span class="caption">(고정 100점)</span></td>
-                        <td id="txtYahtzeeBonus" class="txt__gray">100점</td>
+                        <td id="txtYahtzeeBonus" class="txt__gray score__bottom">100점</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>총 점</th>
-                        <td colspan="2" class="score__all">- 점</td>
+                        <td id="AllScore" colspan="2" class="score__all">- 점</td>
                     </tr>
                 </tfoot>
             </table>

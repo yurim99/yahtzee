@@ -333,6 +333,12 @@ td:has(.score__btn) {
     font-weight: 600;
 }
 
+.score__bottom,
+.score-top__all,
+.score__all {
+    text-align: center;
+}
+
 .score__all {
     color: var(--red);
     font-weight: 600;
