@@ -2,6 +2,7 @@
     --red: #F63D68;
     --green: #12B76A;
     --blue: #0086C9;
+    --progress: calc(100%/13*1);
 }
 
 .txt__gray {
@@ -23,6 +24,18 @@
 /* 영역 */
 body {
     background-color: #475467;
+}
+body::-webkit-scrollbar {
+    width: .5rem;
+}
+body::-webkit-scrollbar-track {
+    border-radius: .5rem;
+    background-color: #eee;
+}
+body::-webkit-scrollbar-thumb {
+    border-radius: .5rem;
+    width: .5rem;
+    background-color: #777;
 }
 
 .dim {
@@ -244,6 +257,7 @@ body {
     gap: 2rem 1rem;
 }
 
+.progress__tit,
 .rolling__chance {
     font-size: 1.6rem;
     font-weight: 500;
@@ -365,6 +379,7 @@ td:has(.score__btn) {
 @media screen and (max-width: 1023px) {
     .container {
         flex-wrap: wrap;
+        padding-top: 10rem;
     }
 
     .board>.game__tit {
@@ -397,6 +412,9 @@ td:has(.score__btn) {
         padding: 2rem 1rem;
     }
 
+    .btn__home {
+        top: 2rem;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -404,9 +422,6 @@ td:has(.score__btn) {
         padding-top: 7rem;
     }
 
-    .btn__home {
-        top: 2rem;
-    }
 
     .dice-stage {
         width: 29.9rem;
@@ -553,4 +568,42 @@ td:has(.score__btn) {
 
 .caption {
     color: var(--green);
+}
+
+.progress-stage {
+    position: absolute;
+    width: 100%;
+    top: -400px;
+}
+
+.progress__bar,
+.progress__bar::before {
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+}
+
+.progress__bar {
+    margin-top: 10px;
+    background-color: #fff;
+    position: relative;
+}
+
+.progress__bar::before {
+    content: '';
+    display: block;
+    width: var(--progress);
+    background-color: var(--blue);
+    transition: all .15s ease-in;
+}
+
+@media screen and (max-width: 1023px) {
+    .progress-stage {
+        top: -100px;
+    }
+}
+@media screen and (max-width: 576px) {
+    .progress-stage {
+        top: -80px;
+    }
 }
