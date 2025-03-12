@@ -303,6 +303,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
    
     const btnTurnSave = document.getElementById('btnTurnSave');
+    let currTurn = 0;
+    let maxTurn = 13;
+
     btnTurnSave.addEventListener('click', function () {
         if (lastClickedScoreBtn) {
             lastClickedScoreBtn.classList.add('save');
@@ -317,10 +320,22 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 rollDice();
             }, 500);
+
+            ++currTurn;
+
+            console.log(currTurn)
+            
+            const total = parseInt(AllScore.textContent.trim()) || 0;
+            if(currTurn == maxTurn) {
+                alert(`게임이 종료되었습니다! 최종 점수는 ${total} 입니다`);
+
+            }
         } else {
             alert('점수를 선택해주세요.');
         }
-    });
 
+        
+    });
+    
 
 });
