@@ -308,6 +308,7 @@ body {
 
 td:has(.score__btn) {
     padding: .2rem;
+   
 }
 
 .score__btn {
@@ -319,8 +320,10 @@ td:has(.score__btn) {
     color: #888;
     border-radius: .4rem;
     transition: all .2s ease-in;
+    margin: 0 auto;
 }
 
+.score__btn.save,
 .score__btn.fix {
     border: 0;
     color: var(--blue);

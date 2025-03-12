@@ -31,24 +31,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnSixes = document.getElementById('btnSixes');
 
     // 1.1 상단 1 ~ 6 주사위 총합
-    function calculateUpperSection(num, btn) {
-        if (!btn) {
-            console.warn(`⚠ 버튼이 존재하지 않음: btn${num}Aces`);
-            return 0; // 버튼이 없으면 0 반환
-        }
+    function updateScoreSection(btn, num) {
+        if (!btn) return 0;
+    
+        if (btn.classList.contains('save')) return parseInt(btn.textContent) || 0;
+    
         const count = document.querySelectorAll(`.num__0${num}`).length;
         const score = count * num;
         btn.textContent = `${score}점`;
-
+    
         return score;
     }
-
-    calculateUpperSection(1, btnAces);
-    calculateUpperSection(2, btnTwos);
-    calculateUpperSection(3, btnThrees);
-    calculateUpperSection(4, btnFours);
-    calculateUpperSection(5, btnFives);
-    calculateUpperSection(6, btnSixes);
+    
+    updateScoreSection(btnAces, 1);
+    updateScoreSection(btnTwos, 2);
+    updateScoreSection(btnThrees, 3);
+    updateScoreSection(btnFours, 4);
+    updateScoreSection(btnFives, 5);
+    updateScoreSection(btnSixes, 6);
 
     const btnChance = document.getElementById('btnChance');
     const btn3OfAKind = document.getElementById('btn3OfAKind');
@@ -64,23 +64,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 모든 주사위 총합
     function chance() {
+        if (btnChance.classList.contains('save')) {
+            return parseInt(btnChance.textContent) || 0;
+        }
+    
         const total =
-            calculateUpperSection(1, btnAces) +
-            calculateUpperSection(2, btnTwos) +
-            calculateUpperSection(3, btnThrees) +
-            calculateUpperSection(4, btnFours) +
-            calculateUpperSection(5, btnFives) +
-            calculateUpperSection(6, btnSixes);
+            updateScoreSection(btnAces, 1) +
+            updateScoreSection(btnTwos, 2) +
+            updateScoreSection(btnThrees, 3) +
+            updateScoreSection(btnFours, 4) +
+            updateScoreSection(btnFives, 5) +
+            updateScoreSection(btnSixes, 6);
+    
         btnChance.textContent = `${total}점`;
         return total;
     }
 
     // 각 자리별 주사위 눈값 추출
-    const diceN1 = document.getElementById('diceN1');
-    const diceN2 = document.getElementById('diceN2');
-    const diceN3 = document.getElementById('diceN3');
-    const diceN4 = document.getElementById('diceN4');
-    const diceN5 = document.getElementById('diceN5');
     const diceResults = Array.from(document.querySelectorAll('[id^="diceN"]'));
 
     // 중복 되는 주사위 갯수 확인 
@@ -91,14 +91,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function checkKind(countRequired, btn, fixedScore = false) {
-        const numbers = diceResults.map(dice => getClassNumber(dice));
+        if (btn.classList.contains('save')) {
+            return;
+        }
+    
+        const numbers = Array.from(dices).map(dice => getClassNumber(dice));
         let countMap = numbers.reduce((acc, num) => {
             acc[num] = (acc[num] || 0) + 1;
             return acc;
         }, {});
-
+    
         const isKind = Object.values(countMap).some(count => count >= countRequired);
-        const totalScore = chance();  // ✅ 수정된 부분
+        const totalScore = chance();
+    
         btn.textContent = isKind ? `${fixedScore ? fixedScore : totalScore}점` : '0점';
     }
 
@@ -171,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function topScore() {
         const topSum = getSumFromButtons('.score__btn.top.fix') || 0;
-        if (isNaN(topSum)) topSum = 0; // NaN 방지
+        if (isNaN(topSum)) topSum = 0;
         btnTopScore.textContent = `${topSum}점`;
         lastScore(topSum);
     }
@@ -195,71 +200,127 @@ document.addEventListener("DOMContentLoaded", function () {
         AllScore.textContent = `${totalSum}점`;
     }
 
-    function initScore() {
-        [1, 2, 3, 4, 5, 6].forEach(num => {
-            const btn = document.getElementById(`btn${num}Aces`);
-            if (btn) calculateUpperSection(num, btn);
+    function initScore(resetFix = false) {
+        [btnAces, btnTwos, btnThrees, btnFours, btnFives, btnSixes].forEach((btn, i) => {
+            if (!btn.classList.contains('save')) updateScoreSection(btn, i + 1);
         });
-
-        chance();
-        checkKind(3, btn3OfAKind);
-        checkKind(4, btn4OfAKind);
-        checkKind(5, btnYahtzee, 50);
-        fullHouse();
-        straughtS()
-        straughtL()
-        checkStraight(4, btnStraightS);
-        checkStraight(5, btnStraightL);
+    
+        [
+            [btnChance, chance],
+            [btn3OfAKind, () => checkKind(3, btn3OfAKind)],
+            [btn4OfAKind, () => checkKind(4, btn4OfAKind)],
+            [btnYahtzee, () => checkKind(5, btnYahtzee, 50)],
+            [btnFullHouse, fullHouse],
+            [btnStraightS, () => checkStraight(4, btnStraightS)],
+            [btnStraightL, () => checkStraight(5, btnStraightL)],
+        ].forEach(([btn, func]) => {
+            if (!btn.classList.contains('save')) func();
+        });
+    
         yahtzeeBonus();
-
-        updateScore()
-    }
-
-    document.body.addEventListener('click', function (e) {
-        if (e.target.classList.contains('score__btn')) {
-            e.target.classList.toggle('fix');
-            updateScore();
+    
+        if (resetFix) {
+            document.querySelectorAll('.score__btn:not(.save)').forEach(btn => btn.classList.remove('fix'));
         }
-    });
+    
+        updateScore();
+    }
 
     // 클릭 횟수 설정
     let clickCount = 1;
-    const rollingBtn = document.querySelector('.btn__rolling');
+    const rollingBtn = document.getElementById('btnRolling');
     const rollingCount = document.querySelector('.rolling__chance > span');
     const maxLolling = 3;
+    let isRolling = false;
 
-    rollingBtn.addEventListener('click', function () {
-        if (clickCount < maxLolling) {
-            rollingCount.textContent = ++clickCount;
-            dices.forEach(dice => {
-                if (!dice.classList.contains('fix')) {
-                    dice.classList.add('rolling');
+    function rollDice() {
+        if (clickCount >= maxLolling || isRolling) return;
+    
+        isRolling = true;
+        rollingCount.textContent = ++clickCount;
+        let rollingComplete = 0;
+    
+        dices.forEach(dice => {
+            if (!dice.classList.contains('fix')) {
+                dice.classList.add('rolling');
+    
+                setTimeout(() => {
+                    let randomNumber = Math.floor(Math.random() * 6) + 1;
+                    dice.classList.remove('rolling');
+                    dice.className = `dice num__0${randomNumber}`;
+    
+                    rollingComplete++;
+    
+                    initScore(true);
+                    isRolling = false;
+                    // if (rollingComplete === dices.length) {
+                    // }
+                }, 900);
+            }
+        });
+    
+        setTimeout(() => {
+            if (clickCount >= maxLolling) {
+                rollingBtn.disabled = true;
+            }
+        }, 1000);
+    }
+    
+    rollingBtn.addEventListener('click', rollDice);
+    
 
-                    setTimeout(() => {
-                        let randomNumber = Math.floor(Math.random() * 6) + 1;
-                        dice.classList.remove('rolling');
-                        dice.className = `dice num__0${randomNumber}`;
-
-                        initScore(); // ✅ 주사위 굴릴 때 점수 업데이트
-                    }, 900);
-                }
-            });
-        }
-
-        rollingBtn.disabled = clickCount >= maxLolling;
-    });
-
-    // 점수 초기화
-    initScore()
 
     // 점수 버튼 설정
     const scoreBtns = document.querySelectorAll('.score__btn');
     scoreBtns.forEach(scoreBtn => {
         scoreBtn.addEventListener('click', function () {
-            scoreBtn.classList.toggle('fix')
-            topScore()
-            lastScore()
-        })
-    })
-});
+            if (!scoreBtn.classList.contains('save')) {
+                scoreBtn.classList.toggle('fix');
+                initScore();
+            }
+        });
+    });
 
+    // 턴 저장
+    let lastClickedScoreBtn = null;
+
+    document.body.addEventListener('click', function (e) {
+        if (e.target.classList.contains('score__btn')) {
+            if (!e.target.classList.contains('save')) {
+
+                if (lastClickedScoreBtn && lastClickedScoreBtn !== e.target) {
+                    lastClickedScoreBtn.classList.remove('fix');
+                }
+
+                e.target.classList.add('fix');
+                lastClickedScoreBtn = e.target;
+                updateScore();
+            } else {
+
+            }
+        }
+    });
+
+   
+    const btnTurnSave = document.getElementById('btnTurnSave');
+    btnTurnSave.addEventListener('click', function () {
+        if (lastClickedScoreBtn) {
+            lastClickedScoreBtn.classList.add('save');
+            lastClickedScoreBtn = null;
+    
+            dices.forEach(dice => dice.classList.remove('fix'));
+    
+            clickCount = 0;
+            rollingCount.textContent = clickCount;
+            rollingBtn.disabled = false;
+    
+            setTimeout(() => {
+                rollDice();
+            }, 500);
+        } else {
+            alert('점수를 선택해주세요.');
+        }
+    });
+
+
+});
