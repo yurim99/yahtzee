@@ -338,3 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+});
