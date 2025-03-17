@@ -299,11 +299,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     const btnTurnSave = document.getElementById('btnTurnSave');
-    let currTurn = 0;
+    let currTurn = 12;
     let maxTurn = 13;
 
     //턴 저장
-    btnTurnSave.addEventListener('click', function () {
+    btnTurnSave.addEventListener('click', function (event) {
         if (lastClickedScoreBtn) {
             lastClickedScoreBtn.classList.add('save');
             lastClickedScoreBtn = null;
@@ -325,10 +325,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const total = parseInt(AllScore.textContent.trim()) || 0;
             if (currTurn == maxTurn) {
-                alert(`게임이 종료되었습니다! 최종 점수는 ${total} 입니다`);
+                initPopBody(`게임이 종료되었습니다!<br>최종 점수는 ${total}점 입니다`)
+                initPopFoot();
+                openPop()
             }
         } else {
-            alert('점수를 선택해주세요.');
+            initPopBody(`점수를 선택해주세요.`);
+            initPopFoot(event);
+            openPop()
         }
 
     });
