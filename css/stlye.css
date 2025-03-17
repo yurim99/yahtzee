@@ -627,7 +627,7 @@ td:has(.score__btn) {
     content: '';
     display: block;
     width: var(--progress);
-    background-color: var(--blue);
+    background-color: var(--green);
     transition: all .15s ease-in;
 }
 

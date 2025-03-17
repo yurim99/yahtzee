@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         popFoot.addEventListener('click', function(event) {
             if (event.target && event.target.id === 'goToHome') {
                 closePop();
-                window.location.href = 'intro.html';
+                window.location.href = 'index.html';
             }
     
             if (event.target && event.target.id === 'popClose') {
