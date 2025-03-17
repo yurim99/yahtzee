@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 각 자리별 주사위 눈값 추출
     const diceResults = Array.from(document.querySelectorAll('[id^="diceN"]'));
-    console.log(diceResults);
+    //console.log(diceResults);
 
     // 모든 주사위 총합
     function chance() {
@@ -150,8 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 야찌 보너스
     function yahtzeeBonus() {
-        if (document.getElementById('btnYahtzee').textContent.trim() === '50점') {
-
+        if (btnYahtzee.textContent.trim() === '50점' && checkKind(5, btnYahtzee)) {
+            txtYahtzeeBonus.textContent = `100점`
         } else {
             txtYahtzeeBonus.textContent = `0점`
         }
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const btnTurnSave = document.getElementById('btnTurnSave');
     let currTurn = 1;
-    let maxTurn = 13;
+    let maxTurn = 14;
 
     //턴 저장
     btnTurnSave.addEventListener('click', function (event) {
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (currTurn < maxTurn) {
                 ++currTurn;
-                document.documentElement.style.setProperty('--progress', `calc(100% / 13 * ${currTurn})`);
+                document.documentElement.style.setProperty('--progress', `calc(100% / ${maxTurn} * ${currTurn})`);
             }
 
             const total = parseInt(AllScore.textContent.trim()) || 0;
@@ -328,6 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 initPopBody(`게임이 종료되었습니다!<br>최종 점수는 ${total}점 입니다`)
                 initPopFoot(event);
                 openPop()
+                rollingBtn.disabled = false;
             }
         } else {
             initPopBody(`점수를 선택해주세요.`);

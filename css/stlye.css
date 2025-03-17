@@ -2,7 +2,7 @@
     --red: #F63D68;
     --green: #12B76A;
     --blue: #0086C9;
-    --progress: calc(100%/13*1);
+    --progress: calc(100%/14*1);
 }
 
 .pc {
@@ -40,6 +40,10 @@
 body {
     background-color: #475467;
 }
+body:has(.popup.active) {
+    overflow-y: hidden;
+}
+
 body::-webkit-scrollbar {
     width: .5rem;
 }
