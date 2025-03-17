@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const txtYahtzeeBonus = document.getElementById('txtYahtzeeBonus');
     const btnTopScore = document.getElementById('btnTopScore');
     const AllScore = document.getElementById('AllScore');
+    
+    
     // 1.2 하단 점수 설정
 
     // 모든 주사위 총합
@@ -297,6 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currTurn = 0;
     let maxTurn = 13;
 
+    //턴 저장
     btnTurnSave.addEventListener('click', function () {
         if (lastClickedScoreBtn) {
             lastClickedScoreBtn.classList.add('save');
@@ -312,21 +315,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 rollDice();
             }, 500);
 
-            ++currTurn;
-
-            console.log(currTurn)
+            if (currTurn < maxTurn) {
+                ++currTurn;
+                document.documentElement.style.setProperty('--progress', `calc(100% / 13 * ${currTurn})`);
+            }
             
             const total = parseInt(AllScore.textContent.trim()) || 0;
             if(currTurn == maxTurn) {
                 alert(`게임이 종료되었습니다! 최종 점수는 ${total} 입니다`);
-
             }
         } else {
             alert('점수를 선택해주세요.');
         }
 
-        
     });
-    
 
 });
