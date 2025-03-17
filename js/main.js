@@ -24,16 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // 1.1 상단 1 ~ 6 주사위 총합
     function updateScoreSection(btn, num) {
         if (!btn) return 0;
-    
+
         if (btn.classList.contains('save')) return parseInt(btn.textContent) || 0;
-    
+
         const count = document.querySelectorAll(`.num__0${num}`).length;
         const score = count * num;
         btn.textContent = `${score}점`;
-    
+
         return score;
     }
-    
+
     updateScoreSection(btnAces, 1);
     updateScoreSection(btnTwos, 2);
     updateScoreSection(btnThrees, 3);
@@ -51,30 +51,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const txtYahtzeeBonus = document.getElementById('txtYahtzeeBonus');
     const btnTopScore = document.getElementById('btnTopScore');
     const AllScore = document.getElementById('AllScore');
-    
-    
-    // 1.2 하단 점수 설정
 
-    // 모든 주사위 총합
-    function chance() {
-        if (btnChance.classList.contains('save')) {
-            return parseInt(btnChance.textContent) || 0;
-        }
-    
-        const total =
-            updateScoreSection(btnAces, 1) +
-            updateScoreSection(btnTwos, 2) +
-            updateScoreSection(btnThrees, 3) +
-            updateScoreSection(btnFours, 4) +
-            updateScoreSection(btnFives, 5) +
-            updateScoreSection(btnSixes, 6);
-    
-        btnChance.textContent = `${total}점`;
-        return total;
-    }
+
+    // 1.2 하단 점수 설정
 
     // 각 자리별 주사위 눈값 추출
     const diceResults = Array.from(document.querySelectorAll('[id^="diceN"]'));
+    console.log(diceResults);
+
+    // 모든 주사위 총합
+    function chance() {
+        let total = 0;
+
+        diceResults.forEach(dice => {
+            const match = dice.className.match(/num__(\d+)/);
+            if (match) {
+                total += parseInt(match[1], 10);
+            }
+        });
+
+        // 버튼에 총합 표시
+        if (btnChance.classList.contains('save')) {
+            return parseInt(btnChance.textContent) || 0;
+        }
+
+        btnChance.textContent = `${total}점`;
+        return total;
+    }
 
     // 중복 되는 주사위 갯수 확인 
     function getClassNumber(dice) {
@@ -87,16 +90,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (btn.classList.contains('save')) {
             return;
         }
-    
+
         const numbers = Array.from(dices).map(dice => getClassNumber(dice));
         let countMap = numbers.reduce((acc, num) => {
             acc[num] = (acc[num] || 0) + 1;
             return acc;
         }, {});
-    
+
         const isKind = Object.values(countMap).some(count => count >= countRequired);
         const totalScore = chance();
-    
+
         btn.textContent = isKind ? `${fixedScore ? fixedScore : totalScore}점` : '0점';
     }
 
@@ -197,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [btnAces, btnTwos, btnThrees, btnFours, btnFives, btnSixes].forEach((btn, i) => {
             if (!btn.classList.contains('save')) updateScoreSection(btn, i + 1);
         });
-    
+
         [
             [btnChance, chance],
             [btn3OfAKind, () => checkKind(3, btn3OfAKind)],
@@ -209,13 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
         ].forEach(([btn, func]) => {
             if (!btn.classList.contains('save')) func();
         });
-    
+
         yahtzeeBonus();
-    
+
         if (resetFix) {
             document.querySelectorAll('.score__btn:not(.save)').forEach(btn => btn.classList.remove('fix'));
         }
-    
+
         updateScore();
     }
 
@@ -228,22 +231,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function rollDice() {
         if (clickCount >= maxLolling || isRolling) return;
-    
+
         isRolling = true;
         rollingCount.textContent = ++clickCount;
         let rollingComplete = 0;
-    
+
         dices.forEach(dice => {
             if (!dice.classList.contains('fix')) {
                 dice.classList.add('rolling');
-    
+
                 setTimeout(() => {
                     let randomNumber = Math.floor(Math.random() * 6) + 1;
                     dice.classList.remove('rolling');
                     dice.className = `dice num__0${randomNumber}`;
-    
+
                     rollingComplete++;
-    
+
                     initScore(true);
                     isRolling = false;
                     // if (rollingComplete === dices.length) {
@@ -251,16 +254,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 }, 900);
             }
         });
-    
+
         setTimeout(() => {
             if (clickCount >= maxLolling) {
                 rollingBtn.disabled = true;
             }
         }, 1000);
     }
-    
+
     rollingBtn.addEventListener('click', rollDice);
-    
+
 
 
     // 점수 버튼 설정
@@ -294,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-   
+
     const btnTurnSave = document.getElementById('btnTurnSave');
     let currTurn = 0;
     let maxTurn = 13;
@@ -304,13 +307,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (lastClickedScoreBtn) {
             lastClickedScoreBtn.classList.add('save');
             lastClickedScoreBtn = null;
-    
+
             dices.forEach(dice => dice.classList.remove('fix'));
-    
+
             clickCount = 0;
             rollingCount.textContent = clickCount;
             rollingBtn.disabled = false;
-    
+
             setTimeout(() => {
                 rollDice();
             }, 500);
@@ -319,9 +322,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 ++currTurn;
                 document.documentElement.style.setProperty('--progress', `calc(100% / 13 * ${currTurn})`);
             }
-            
+
             const total = parseInt(AllScore.textContent.trim()) || 0;
-            if(currTurn == maxTurn) {
+            if (currTurn == maxTurn) {
                 alert(`게임이 종료되었습니다! 최종 점수는 ${total} 입니다`);
             }
         } else {
