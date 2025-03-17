@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/stlye.css">
+    <script src="./js/common.js"></script>
     <script src="./js/main.js"></script>
 </head>
 
 <body>
+    <div class="dim"></div>
     <div class="container">
         <a id="top" href="javascript:void(0)"></a>
         <div class="board">
@@ -71,7 +73,7 @@
             </div>
         </div>
         <div class="score">
-            <button class="btn btn__green btn__home" title="홈으로"></button>
+            <button class="btn btn__green btn__home btn__open" title="홈으로"></button>
             <p class="score__tit">점수표</p>
             <table class="score__table">
                 <caption>상단 점수표</caption>
@@ -154,7 +156,7 @@
                     </tr>
                     <tr>
                         <th>Full House</th>
-                        <td>눈이 동일한 주사위가 각각 3개와 2개가 있을 때 <span class="caption">(고정 25점)</span></td>
+                        <td>눈이 동일한 주사위가 각각 3개와 2개가 있을 때 <br class="pc"><span class="caption">(고정 25점)</span></td>
                         <td><button id="btnFullHouse" class="btn score__btn score__bottom">0점</button></td>
                     </tr>
                     <tr>
@@ -192,7 +194,22 @@
             </table>
         </div>
         <a href="#top" class="btn__top" title="상단으로"></a>
+
     </div>
+    <!-- st 팝업 -->
+    <aside class="popup sm">
+        <div class="pop__head">
+            <p class="pop__tit">안내</p>
+        </div>
+        <div class="pop__body">
+            <p class="txt__center">게임을 그만두고 돌아가시겠습니까?</p>
+        </div>
+        <div class="pop__foot">
+            <button id="goToHome" class="btn btn__blue">확인</button>
+            <button class="btn btn__red btn__close">닫기</button>
+        </div>
+    </aside>
+    <!-- ed 팝업 -->
 </body>
 
 </html>

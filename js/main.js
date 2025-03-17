@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 페이지 이동 설정
-    const homeBtn = document.querySelector('.btn__home');
-    homeBtn.addEventListener('click', function () {
-        const moveHome = confirm('게임을 그만두고 돌아가시겠습니까?');
-        if (moveHome) {
-            window.location.href = 'intro.html';
-        }
-    })
-
     // 주사위 굴리기 설정
     const dices = document.querySelectorAll('.dice');
     dices.forEach(dice => {
