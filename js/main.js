@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     const btnTurnSave = document.getElementById('btnTurnSave');
-    let currTurn = 12;
+    let currTurn = 1;
     let maxTurn = 13;
 
     //턴 저장
