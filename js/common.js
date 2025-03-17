@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    window.initPopFoot = function(e) {
+    window.initPopFoot = function(event) {
         window.popFoot.innerHTML = '';
-        if (e.target && e.target.classList.contains('btn__home')) {
+        if (event.target && event.target.classList.contains('btn__home')) {
             window.createBtn(window.goToHomeBtn);
         }
         window.createBtn(window.closeBtn);

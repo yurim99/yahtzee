@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const total = parseInt(AllScore.textContent.trim()) || 0;
             if (currTurn == maxTurn) {
                 initPopBody(`게임이 종료되었습니다!<br>최종 점수는 ${total}점 입니다`)
-                initPopFoot();
+                initPopFoot(event);
                 openPop()
             }
         } else {
