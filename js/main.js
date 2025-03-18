@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const isKind = Object.values(countMap).some(count => count >= countRequired);
         const totalScore = chance();
 
-        btn.textContent = isKind ? `${fixedScore ? fixedScore : totalScore}점` : '0점';
+        btn.textContent = isKind ? `${fixedScore || totalScore}점` : '0점';
     }
 
     checkKind(3, btn3OfAKind);
