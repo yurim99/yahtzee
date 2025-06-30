@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.classList.add('active');
     }
 
+    popOpenBtn.addEventListener('click', function() {
+        openPop()
+    })
+
     window.createEl = function(tag, className = '', txt = '', id = '') {
         const element = document.createElement(tag);
         if (className) element.className = className;
